@@ -65,7 +65,7 @@ docker-compose -f docker/docker-compose-selenium.yml up
 docker-compose scale selenium-hub=1 firefox=5 chrome=5 
 ```
 
-#### Selenoid
+### Selenoid - more in [Selenoid Configuration.md](Selenoid Configuration.md) 
 
 1. Pull desired browser images for testing
 ```
@@ -88,7 +88,7 @@ docker-compose -f docker/docker-compose-zalenium.yml up --force-recreate
 ```
 
 
-#### Running Tests against these Selenium Grid implementations
+## Running Tests against these Selenium Grid implementations
 ```
  ./mvnw clean verify -Denv=test -DenableVNC=true -DenableVideo=true
 ```
