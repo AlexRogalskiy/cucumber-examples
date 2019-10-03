@@ -1,0 +1,45 @@
+apply plugin: 'java'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+
+def testContainersVersion='1.12.0'
+
+dependencies {
+    testCompile 'io.github.prashant-ramcharan:courgette-jvm:3.3.0'
+    testCompile("com.codeborne:selenide:5.2.2")
+    compile("org.projectlombok:lombok:1.18.10")
+    compile("org.assertj:assertj-core:3.11.1")
+
+
+    testCompile("org.testcontainers:testcontainers:${testContainersVersion}")
+    testCompile("org.testcontainers:selenium:${testContainersVersion}")
+// no need for cucumber dependecies, since courgetet already have them - 3.3.0 - depends on cucumber 4.3.0
+//    compile("io.cucumber:cucumber-java:${cucumberVersion}")
+//    compile("io.cucumber:cucumber-guice:${cucumberVersion}")
+//    compile("io.cucumber:cucumber-junit:${cucumberVersion}")
+
+}
+
+tasks.withType(Test) {
+    systemProperties = System.getProperties()
+    systemProperties.remove("java.endorsed.dirs")
+}
+
+//task runFeaturesUsingJUnit(type: Test) {
+//    include '**/suites/junit/CourgetteRunner.class'
+//    outputs.upToDateWhen { false }
+//}
+
+task runScenarios(type: Test) {
+    include '**/*Runner.class'
+    outputs.upToDateWhen { false }
+}
