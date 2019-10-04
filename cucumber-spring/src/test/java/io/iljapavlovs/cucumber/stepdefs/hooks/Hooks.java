@@ -6,11 +6,12 @@ import static java.lang.String.format;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Screenshots;
 import com.codeborne.selenide.WebDriverRunner;
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+import io.cucumber.core.api.Scenario;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.iljapavlovs.cucumber.config.ApplicationProperties;
 import io.iljapavlovs.cucumber.config.ApplicationProperties.ApplicationProperty;
+import io.iljapavlovs.cucumber.config.Config;
 import io.iljapavlovs.cucumber.utils.docker.ChromeContainer;
 import io.iljapavlovs.cucumber.utils.docker.CurrentBrowserHolder;
 import io.iljapavlovs.cucumber.utils.docker.DockerSupport;
@@ -20,20 +21,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 
 @Slf4j
+@ContextConfiguration(classes = { Config.class })
+@DirtiesContext
 public class Hooks {
-
+  @Autowired
   private ChromeContainer chromeContainer;
-
-
 
   @Before
   public void setUpSelenium() throws IllegalAccessException, InstantiationException {
 
     String testEnvironmnetHost;
     if (ApplicationProperties.getBoolean(ApplicationProperty.USE_TESTCONTAINERS)) {
-      chromeContainer = new ChromeContainer();
+//      chromeContainer = new ChromeContainer();
       chromeContainer.start();
       log.info("Testcontainers VNC address for UI tests: " + chromeContainer.getVncAddress());
 

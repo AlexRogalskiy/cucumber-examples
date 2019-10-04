@@ -97,3 +97,11 @@ docker-compose -f docker/docker-compose-zalenium.yml up --force-recreate
 
 ## Driver Download for local execution
 This project uses [webdrivermanager](https://github.com/bonigarcia/webdrivermanager) tool in order to automate the Selenium browser drivers management in runtime. It will **automatically** download all needed driver to your local PC if needed with specified version.
+
+
+
+## Cucumber >1.2.5
+
+* Parameter Types:
+    * Type Registry - https://cucumber.io/docs/cucumber/configuration/
+    * https://github.com/cucumber/cucumber-jvm/blob/master/examples/java-calculator/src/test/java/io/cucumber/examples/java/ParameterTypes.java

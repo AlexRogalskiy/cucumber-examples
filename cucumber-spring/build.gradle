@@ -1,0 +1,52 @@
+apply plugin: 'java'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+
+def testContainersVersion='1.12.0'
+def cucumberVersion='4.7.2'
+
+
+dependencies {
+//    testCompile 'io.github.prashant-ramcharan:courgette-jvm:3.3.0'
+    testCompile("com.codeborne:selenide:5.2.2")
+    compile("org.projectlombok:lombok:1.18.10")
+    compile("org.assertj:assertj-core:3.11.1")
+
+
+
+//    compile("org.springframework:spring-context:5.2.0")
+//    compile("org.springframework:spring-test:5.2.0")
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test:2.1.8.RELEASE')
+
+
+    compile("io.cucumber:cucumber-java:${cucumberVersion}")
+    compile("io.cucumber:cucumber-spring:${cucumberVersion}")
+    compile("io.cucumber:cucumber-junit:${cucumberVersion}")
+
+
+    testCompile("org.testcontainers:testcontainers:${testContainersVersion}")
+    testCompile("org.testcontainers:selenium:${testContainersVersion}")
+
+}
+
+tasks.withType(Test) {
+    systemProperties = System.getProperties()
+    systemProperties.remove("java.endorsed.dirs")
+}
+
+
+
+task runScenarios(type: Test) {
+    include '**/*Runner.class'
+    outputs.upToDateWhen { false }
+}
