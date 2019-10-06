@@ -26,7 +26,7 @@ public class Stepdefs {
         googlePage = GooglePage.navigate();
     }
 
-    @When("^I search for \"([^\"]*)\"$")
+    @When("^I search for {string}$")
     public void iSearchFor(String searchItem) throws Throwable {
         googleSearchResultPage = googlePage.searchFor(searchItem);
     }

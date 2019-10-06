@@ -40,3 +40,4 @@ No, we did not implement this feature intentionally. We consider that all such c
 **Default maximum parallel session limit is 5** (edit from me: but it's still runs only one thread?), but as you know, we can override this value. At this point, the critical question comes to mind. How many tests can I execute in parallel?
 
 Aerokube suggestion for the max parallel session is the number of cores * 1.5 – 2
+

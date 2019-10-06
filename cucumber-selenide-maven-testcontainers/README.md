@@ -1,10 +1,15 @@
 ###
 
 
-### Run
 
+## Running Tests against these Selenium Grid implementations
+```
+ ./mvnw clean verify -Denv=test -DuseTestcontainers=false -DenableVideo=false -DenableVNC=false
+```
 
-### Cucumber 4 Parallel Execution
+`-Denv=test` - uses `remoteDriver=true` in ApplicationProperties.java
+
+## Cucumber 4 Parallel Execution
 * https://cucumber.io/docs/guides/parallel-execution/
 * http://grasshopper.tech/464/
 * https://github.com/cucumber/docs.cucumber.io/issues/298

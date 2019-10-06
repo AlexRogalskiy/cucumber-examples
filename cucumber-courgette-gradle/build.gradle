@@ -30,7 +30,7 @@ dependencies {
 }
 
 tasks.withType(Test) {
-    systemProperties = System.getProperties()
+    systemProperties System.getProperties()
     systemProperties.remove("java.endorsed.dirs")
 }
 

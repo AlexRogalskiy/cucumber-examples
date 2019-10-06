@@ -50,6 +50,10 @@ public class Hooks {
 //        dataHolder.setTestEnvironmentHost(testEnvironmnetHost);
 //        String uiUrl = format("http://%s:%d", testEnvironmnetHost, environmentConfig.getUiPort());
 
+    if(ApplicationProperties.getBoolean(ApplicationProperty.REMOTE_DRIVER)){
+      Configuration.remote = ApplicationProperties.getString(ApplicationProperty.SELENIUM_GRID_URL);
+    }
+
     String uiUrl = ApplicationProperties.getString(ApplicationProperty.APP_URL);
 
     log.info("UI - Initializing Selenide setup");

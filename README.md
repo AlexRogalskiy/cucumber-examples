@@ -30,6 +30,11 @@ For example, invoking
 ``` 
 will execute tests in parallel 3 threads on local machine and using *cucumber-jvm-parallel-plugin* plugin. In addition, `-Dbrowser` setting will set browser to Chrome.
 
+OR
+```
+ ./mvnw clean verify -DremoteDriver=false -P onerunner -Dthreads=3 -Dbrowser=chrome -DuseTestcontainers=false -DenableVideo=false -DenableVNC=false 
+```
+
 ## Configuration
 Following settings can be changed in `lv.iljapavlovs.cucumber.config.ApplicationProperties.java` or overriden by from command line by providing `-D{configuration key}={value}` 
 
@@ -90,6 +95,10 @@ docker-compose -f docker/docker-compose-zalenium.yml up --force-recreate
 
 ## Running Tests against these Selenium Grid implementations
 ```
+ ./mvnw clean verify -DremoteDriver=true -P onerunner -Dthreads=3 -Dbrowser=chrome -DuseTestcontainers=false -DenableVideo=false -DenableVNC=false 
+```
+
+```
  ./mvnw clean verify -Denv=test -DenableVNC=true -DenableVideo=true
 ```
 
@@ -105,3 +114,49 @@ This project uses [webdrivermanager](https://github.com/bonigarcia/webdrivermana
 * Parameter Types:
     * Type Registry - https://cucumber.io/docs/cucumber/configuration/
     * https://github.com/cucumber/cucumber-jvm/blob/master/examples/java-calculator/src/test/java/io/cucumber/examples/java/ParameterTypes.java
+
+
+* [Spring Boot and Cucumber Tests](https://medium.com/@bcarunmail/set-up-and-run-cucumber-tests-in-spring-boot-application-d0c149d26220)
+    * https://github.com/bcarun/cucumber-samples/tree/master/hello-springboot-cucumber
+    * **Cucumber**:
+        * TypeRegistryConfigurer (CucumberTypeRegistryConfigurer) - from DataTable to Model via Jackson
+        * cucumber-reporting from `net.masterthought` configuration
+        > 1.If you decide to use Cucumber Report plugin configured above, replace ‘@RunWith(Cucumber.class)’ with ‘@RunWith(CucumberReportRunner.class)’ in CucumberTest.java file.
+          2. CucumberReportRunner.java extends Cucumber.java
+          3. CucumberReportRunner generates reports from the file at target/cucumber-report.json
+          4. CucumberReportRunner copies the generated html reports to target/classes/static directory so that the reports are packaged along with the application.
+```
+public class CucumberReportRunner extends Cucumber {
+
+  // Can be dynamically pulled from CI Server
+  private static final String PROJECT_NAME = "Hello Cucumber & Spring Boot";
+  private static final String BUILD_NUMBER = "1.0.0";
+  private static final String BRANCH_NAME = "master";
+
+  public CucumberReportRunner(Class clazz) throws InitializationError {
+    super(clazz);
+  }
+
+  @Override
+  public void run(RunNotifier notifier) {
+    super.run(notifier);
+    generateReport();
+  }
+
+  public static void generateReport() {
+
+    File reportOutputDirectory = new File("target/classes/static");
+    List<String> jsonFiles = new ArrayList<>();
+    jsonFiles.add("target/cucumber-report.json");
+
+    // set values from respective build tool
+    Configuration configuration = new Configuration(reportOutputDirectory, PROJECT_NAME);
+    configuration.setBuildNumber(BUILD_NUMBER);
+    configuration.addClassifications("Build Number", configuration.getBuildNumber());
+    configuration.addClassifications("Branch Name", BRANCH_NAME);
+
+    ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
+    reportBuilder.generateReports();
+  }
+}
+```

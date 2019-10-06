@@ -36,7 +36,7 @@ public class ApplicationProperties {
                     setProperty(ApplicationProperty.SELENIUM_GRID_URL.name, "http://localhost:4444/wd/hub");
 
                     //Testcontainers
-                    setProperty(ApplicationProperty.USE_TESTCONTAINERS.name, "true");
+                    setProperty(ApplicationProperty.USE_TESTCONTAINERS.name, "false");
 
 
                     setProperty(ApplicationProperty.DESIRED_BROWSER_VERSION.name, "");
